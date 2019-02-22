@@ -21,6 +21,7 @@ $(function() {
          * allFeeds in app.js to be an empty array and refresh the
          * page?
          */
+        
         it('are defined', function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
@@ -71,10 +72,10 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
          it('visibility when is clicked', function() {
-            let menu = $('.menu-icon-link');
-            menu.click();
+            let menuIcon = $('.menu-icon-link');
+            menuIcon.click();
             expect($('body').hasClass('menu-hidden')).toBe(false);
-            menu.click();
+            menuIcon.click();
             expect($('body').hasClass('menu-hidden')).toBe(true);
 });
     });
@@ -88,13 +89,15 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
         beforeEach(function(done) {
-            loadFeed(0, done);
+            loadFeed(0, function() {
+                done();
+            });
         });
 
-        it('completes work', function() {
-            const feed = document.querySelector('.feed');
-            expect(feed.children.length > 0).toBe(true);
-        });
+        it('completes work', function(done) {
+            expect($('.feed .entry').length).toBeGreaterThan(0);
+            done();
+});
     });
     /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
@@ -104,6 +107,7 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+        
         beforeEach(function(done) {
             loadFeed(0);
             Array.from(feed.children).forEach(function(entry) {
